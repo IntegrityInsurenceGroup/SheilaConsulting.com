@@ -223,6 +223,10 @@
     to{   opacity:1; transform:translateX(-50%) translateY(0); }
   }
   @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+  @keyframes fadeInUpSmall{
+    from{ opacity:0; transform:translateY(14px); }
+    to{   opacity:1; transform:translateY(0); }
+  }
 
   @media (prefers-reduced-motion: reduce){
     .text-block, .transition-btn, .cta-corner, .reveal, .reveal-item{ animation:none !important; transition:none !important; }
@@ -907,7 +911,18 @@
   }
 
   /* ---- Mobile: image crops narrower, so text moves below the model's
-     shoulder line and gets a soft scrim behind it for contrast. ---- */
+     shoulder line and gets a soft scrim behind it for contrast. The block
+     also switches to a plain fade-in (fadeInUpSmall) instead of the
+     percentage-based desktop "rise" animation — "rise" is tuned for the
+     vertically-centered desktop layout (top:50%/translateY(-46%)) and its
+     translateY values are a % of the block's own box. Reused as-is here,
+     against this bottom-anchored, transform:none layout, it produced a
+     large upward float on entry and then an abrupt downward snap the
+     instant the entrance-animation script hands control back to the base
+     "transform:none" rule. fadeInUpSmall's start/end states use a small
+     fixed px offset instead of a %, and its end state (translateY(0))
+     matches this layout's resting transform:none exactly, so nothing
+     jumps once the animation finishes. ---- */
   @media (max-width: 720px){
     .hero{ background-position: center, center, 30% center; }
     .text-block{
@@ -920,6 +935,7 @@
       padding:1.4rem 1.2rem 1.2rem;
       background:linear-gradient(180deg, rgba(248,241,227,0) 0%, rgba(248,241,227,0.72) 28%, rgba(248,241,227,0.88) 100%);
       border-radius:2px;
+      animation: fadeInUpSmall 0.9s cubic-bezier(.2,.8,.2,1) both;
     }
     .services{ justify-content:flex-start; }
 
